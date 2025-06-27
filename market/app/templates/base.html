@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MenStyle - Стильная мужская одежда{% endblock %}</title>
+    <meta name="description" content="{% block description %}Современная мужская одежда высокого качества. Широкий ассортимент стильной одежды для мужчин.{% endblock %}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .cart-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/50 shadow-sm">
+        <!-- Top Bar -->
+        <div class="bg-primary-800 text-white py-2">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center text-sm">
+                    <div class="flex items-center space-x-4">
+                        <span><i class="fas fa-truck mr-2"></i>Бесплатная доставка от 3000₽</span>
+                        <span class="hidden md:inline"><i class="fas fa-shield-alt mr-2"></i>Гарантия качества</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Navigation -->
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a class="text-2xl font-bold text-primary-800 hover:text-primary-600 transition-colors">
+                        <i class="fas fa-tshirt mr-2"></i>MenStyle
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a class="nav-link text-gray-700 hover:text-primary-600 font-medium py-2 transition-colors">Главная</a>
+                    <a class="nav-link text-gray-700 hover:text-primary-600 font-medium py-2 transition-colors">Каталог</a>
+                    <a class="nav-link text-gray-700 hover:text-primary-600 font-medium py-2 transition-colors">Бренды</a>
+                    <a class="nav-link text-red-600 hover:text-red-700 font-medium py-2 transition-colors">Скидки</a>
+                    <a class="nav-link text-gray-700 hover:text-primary-600 font-medium py-2 transition-colors">О нас</a>
+                    <a class="nav-link text-gray-700 hover:text-primary-600 font-medium py-2 transition-colors">Контакты</a>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-lg mx-8">
+                    <div class="relative w-full">
+                        <input type="text" placeholder="Поиск товаров..." 
+                               class="w-full pl-10 pr-4 py-2 rounded-full border-2 border-gray-200 focus:border-primary-500 focus:outline-none transition-colors">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <!-- User Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Account -->
+                    <div class="relative group">
+                        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors">
+                            <i class="fas fa-user text-lg"></i>
+                            <span class="hidden lg:inline">Аккаунт</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Wishlist -->
+                    <a class="relative text-gray-700 hover:text-red-500 transition-colors">
+                        <i class="fas fa-heart text-lg"></i>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </a>
+                    <!-- Cart -->
+                    <a href="{% url 'cart' %}" class="relative text-gray-700 hover:text-primary-600 transition-colors">
+                      <i class="fas fa-shopping-cart text-lg"></i>
+                      {% if cart_count > 0 %}
+                        <span class="cart-badge absolute -top-2 -right-2 bg-primary-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                          {{ cart_count }}
+                        </span>
+                      {% endif %}
+                    </a>
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="lg:hidden text-gray-700 hover:text-primary-600 transition-colors">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-white shadow-2xl z-50 lg:hidden">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-xl font-bold text-primary-800">Меню</h3>
+                <button id="close-mobile-menu" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Search -->
+            <div class="mb-6">
+                <div class="relative">
+                    <input type="text" placeholder="Поиск..." 
+                           class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:border-primary-500 focus:outline-none">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation Links -->
+            <nav class="space-y-4">
+              <a href="{% url 'home' %}" class="nav-link text-gray-700 ...">Главная</a>
+              <a href="{% url 'catalog' %}" class="nav-link text-gray-700 ...">Каталог</a>
+              <a class="nav-link text-gray-700 ...">Бренды</a>
+              <a class="nav-link text-red-600 ...">Скидки</a>
+              <a class="nav-link text-gray-700 ...">О нас</a>
+              <a class="nav-link text-gray-700 ...">Контакты</a>
+
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+    
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        {% block content %}
+        <!-- Demo Hero Section -->
+        <section class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-primary-800 to-primary-900 text-white">
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="relative container mx-auto px-4 py-24">
+                <div class="max-w-4xl mx-auto text-center fade-in-up">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                        Стиль для современного мужчины
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed">
+                        Откройте для себя коллекцию премиальной мужской одежды, созданной для тех, кто ценит качество и стиль
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#" class="inline-flex items-center px-8 py-4 bg-white text-primary-800 font-semibold rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-shopping-bag mr-2"></i>
+                            Смотреть каталог
+                        </a>
+                        <a href="#" class="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-primary-800 transition-all duration-300">
+                            <i class="fas fa-play mr-2"></i>
+                            О бренде
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Decorative Elements -->
+            <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+            <div class="absolute bottom-20 right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+        </section>
+        {% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-primary-900 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-tshirt text-2xl mr-3"></i>
+                        <h3 class="text-2xl font-bold">MenStyle</h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Стильная мужская одежда высокого качества для современных мужчин, которые ценят комфорт и элегантность.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-primary-700 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary-700 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
+                            <i class="fab fa-vk"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary-700 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Быстрые ссылки</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">О компании</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Доставка и оплата</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Возврат товара</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Размерная сетка</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Categories -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Категории</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Рубашки</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Футболки</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Джинсы</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Куртки</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Аксессуары</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Контакты</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-phone mr-3 text-primary-400"></i>
+                            <span class="text-gray-300">+7 (999) 123-45-67</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-primary-400"></i>
+                            <span class="text-gray-300">info@menstyle.ru</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt mr-3 mt-1 text-primary-400"></i>
+                            <span class="text-gray-300">г. Москва, ул. Примерная, д. 123</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock mr-3 text-primary-400"></i>
+                            <span class="text-gray-300">Пн-Вс: 9:00 - 21:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-primary-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 MenStyle. Все права защищены. | 
+                    <a href="#" class="hover:text-white transition-colors">Политика конфиденциальности</a> | 
+                    <a href="#" class="hover:text-white transition-colors">Пользовательское соглашение</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-primary-600 text-white rounded-full shadow-lg hover:bg-primary-700 transition-all duration-300 opacity-0 pointer-events-none z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        
+        function openMobileMenu() {
+            mobileMenu.classList.add('open');
+            mobileOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileMenuFunc() {
+            mobileMenu.classList.remove('open');
+            mobileOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+        mobileOverlay.addEventListener('click', closeMobileMenuFunc);
+        
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.pointerEvents = 'auto';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.pointerEvents = 'none';
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Search functionality (basic example)
+        const searchInputs = document.querySelectorAll('input[type="text"]');
+        searchInputs.forEach(input => {
+            if (input.placeholder.includes('Поиск')) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        // Здесь добавьте логику поиска
+                        console.log('Поиск:', this.value);
+                    }
+                });
+            }
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
